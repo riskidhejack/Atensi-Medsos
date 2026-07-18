@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E-Report Kanim Tanjung Uban</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased">
+
+  <nav class="bg-slate-900 text-white shadow-md sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <div class="flex items-center space-x-3">
+          <div class="bg-amber-500 text-slate-900 p-2 rounded-lg font-bold">
+            <i class="fa-solid fa-passport text-xl"></i>
+          </div>
+          <div>
+            <span class="font-bold text-lg block tracking-wide">E-REPORT PUBLIKASI</span>
+            <span class="text-xs text-slate-400 block -mt-1">Kanim Kelas II TPI Tanjung Uban</span>
+          </div>
+        </div>
+        <div class="flex items-center space-x-2 text-sm text-slate-300 bg-slate-800 px-3 py-1.5 rounded-full">
+          <i class="fa-solid fa-user-tie text-amber-500"></i>
+          <span class="font-medium">Adi Hari Pianto</span>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div id="offlineBanner" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 rounded-2xl border border-amber-300 bg-amber-50 text-amber-800 text-sm shadow-sm">
+    Preview offline aktif. Data disimpan di browser dan fungsi form, hapus, serta laporan dapat diuji tanpa Google Sheets.
+  </div>
+
+  <div id="toastContainer" class="fixed bottom-4 right-4 z-50 space-y-2"></div>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+    <section class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+      
+      <div class="bg-white p-6 rounded-2xl shadow-xs border border-slate-100 lg:col-span-1 space-y-4">
+        <div class="border-b border-slate-100 pb-3">
+          <h3 class="font-bold text-lg text-slate-900 flex items-center gap-2">
+            <i class="fa-solid fa-square-plus text-amber-500"></i> Input Publikasi Baru
+          </h3>
+          <p class="text-xs text-slate-500">Sistem mendukung banyak kegiatan di hari yang sama</p>
+        </div>
+        
+        <form id="formKonten" class="space-y-3 text-xs" onsubmit="eksekusiSimpanForm(event)">
+          <div>
+            <label class="block font-semibold uppercase tracking-wider text-slate-600 mb-1">Nama Agenda / Kegiatan</label>
+            <input type="text" id="kegiatan" placeholder="Contoh: Rapat Timpora Kelurahan Teluk Lobam" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:border-slate-900" required>
+          </div>
+          <div>
+            <label class="block font-semibold uppercase tracking-wider text-slate-600 mb-1">Tanggal Rilis Publikasi</label>
+            <input type="date" id="tanggal" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:border-slate-900" required>
+          </div>
+          <div class="pt-2 border-t border-dashed border-slate-200">
+            <span class="font-bold text-slate-700 block mb-2">Tautan Media Elektronik (Isi yang rilis saja):</span>
+          </div>
+          <div class="grid grid-cols-1 gap-2">
+            <div class="flex items-center bg-slate-50 border border-slate-200 rounded-lg px-2 py-1"><i class="fa-brands fa-instagram text-rose-500 text-sm w-6"></i><input type="url" id="instagram" placeholder="Link Instagram Reel/Post" class="w-full bg-transparent border-none text-xs focus:outline-none py-1"></div>
+            <div class="flex items-center bg-slate-50 border border-slate-200 rounded-lg px-2 py-1"><i class="fa-brands fa-facebook text-indigo-600 text-sm w-6"></i><input type="url" id="facebook" placeholder="Link Facebook Post" class="w-full bg-transparent border-none text-xs focus:outline-none py-1"></div>
+            <div class="flex items-center bg-slate-50 border border-slate-200 rounded-lg px-2 py-1"><i class="fa-brands fa-x-twitter text-slate-800 text-sm w-6"></i><input type="url" id="x" placeholder="Link Media X" class="w-full bg-transparent border-none text-xs focus:outline-none py-1"></div>
+            <div class="flex items-center bg-slate-50 border border-slate-200 rounded-lg px-2 py-1"><i class="fa-brands fa-tiktok text-black text-sm w-6"></i><input type="url" id="tiktok" placeholder="Link Tiktok" class="w-full bg-transparent border-none text-xs focus:outline-none py-1"></div>
+            <div class="flex items-center bg-slate-50 border border-slate-200 rounded-lg px-2 py-1"><i class="fa-brands fa-youtube text-red-600 text-sm w-6"></i><input type="url" id="yt_shorts" placeholder="Link Youtube Shorts" class="w-full bg-transparent border-none text-xs focus:outline-none py-1"></div>
+            <div class="flex items-center bg-slate-50 border border-slate-200 rounded-lg px-2 py-1"><i class="fa-solid fa-video text-red-500 text-sm w-6"></i><input type="url" id="youtube" placeholder="Link Youtube Video" class="w-full bg-transparent border-none text-xs focus:outline-none py-1"></div>
+            <div class="flex items-center bg-slate-50 border border-slate-200 rounded-lg px-2 py-1"><i class="fa-solid fa-globe text-emerald-600 text-sm w-6"></i><input type="url" id="instansi" placeholder="Link Laman Instansi" class="w-full bg-transparent border-none text-xs focus:outline-none py-1"></div>
+            <div class="flex items-center bg-slate-50 border border-slate-200 rounded-lg px-2 py-1"><i class="fa-solid fa-newspaper text-blue-600 text-sm w-6"></i><input type="url" id="media" placeholder="Link Pemberitaan Media" class="w-full bg-transparent border-none text-xs focus:outline-none py-1"></div>
+          </div>
+          <button type="submit" id="btnSimpan" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-medium py-2.5 px-4 rounded-lg text-sm transition-all flex items-center justify-center gap-2 cursor-pointer mt-3">
+            <i class="fa-solid fa-floppy-disk"></i> Simpan Data Kegiatan
+          </button>
+        </form>
+      </div>
+
+      <div class="bg-white p-6 rounded-2xl shadow-xs border border-slate-100 lg:col-span-2 space-y-4">
+        <div class="border-b border-slate-100 pb-3">
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <div>
+              <h3 class="font-bold text-lg text-slate-900 flex items-center gap-2">
+                <i class="fa-solid fa-table-list text-slate-700"></i> Log Riwayat Kategori Per Hari
+              </h3>
+              <p class="text-xs text-slate-500">Gunakan ikon sampah merah untuk menghapus data yang salah.</p>
+            </div>
+            <div class="flex flex-wrap items-center gap-2">
+              <span id="statusLabel" class="text-xs text-slate-500 bg-slate-100 px-3 py-1 rounded-full">Menunggu status...</span>
+              <button type="button" onclick="segarkanDataTabel()" class="bg-slate-900 text-white text-xs px-3 py-1.5 rounded-lg hover:bg-slate-800 transition">Refresh Data</button>
+              <button type="button" onclick="bersihkanDataLokal()" class="bg-red-500 text-white text-xs px-3 py-1.5 rounded-lg hover:bg-red-600 transition">Reset Lokal</button>
+            </div>
+          </div>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-slate-50 border-b border-slate-100 text-slate-600 text-xs font-semibold uppercase tracking-wider">
+                <th class="py-3 px-4 w-1/4">Tanggal Laporan</th>
+                <th class="py-3 px-4 w-1/2">Daftar Kegiatan Terbit Harian</th>
+                <th class="py-3 px-4 text-center whitespace-nowrap">Aksi Laporan AI</th>
+              </tr>
+            </thead>
+            <tbody id="tabelBody" class="divide-y divide-slate-100 text-sm">
+              <tr><td colspan="3" class="py-4 text-center text-slate-400 text-xs">Menghubungkan ke Google Sheets...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="modalAI" class="hidden fixed inset-0 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4 z-50">
+    <div class="bg-white w-full max-w-2xl rounded-2xl shadow-xl border border-slate-100 overflow-hidden flex flex-col max-h-[90vh]">
+      <div class="bg-slate-900 text-white p-4 flex justify-between items-center">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-wand-magic-sparkles text-amber-400 animate-pulse"></i>
+          <h3 class="font-bold text-base">Hasil Rumusan Atensi Gemini AI</h3>
+        </div>
+        <button onclick="tutupModalAI()" class="text-slate-400 hover:text-white transition-colors cursor-pointer"><i class="fa-solid fa-xmark text-lg"></i></button>
+      </div>
+      <div class="p-6 overflow-y-auto space-y-4 flex-1">
+        <textarea id="txtHasilLaporan" readonly class="w-full h-80 p-4 bg-slate-50 border border-slate-200 rounded-xl text-xs font-mono text-slate-700 focus:outline-none leading-relaxed resize-none"></textarea>
+      </div>
+      <div class="p-4 bg-slate-50 border-t border-slate-100 flex justify-end gap-3">
+        <button onclick="tutupModalAI()" class="px-4 py-2 text-sm font-semibold text-slate-600 hover:text-slate-800 cursor-pointer">Batal</button>
+        <button onclick="eksekusiSalinTeks()" class="bg-slate-900 hover:bg-slate-800 text-white font-semibold py-2 px-4 rounded-xl text-sm shadow-sm flex items-center gap-2 cursor-pointer">
+          <i class="fa-solid fa-copy"></i> Salin Teks Atensi
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const isOfflinePreview = !(window.google && window.google.script && window.google.script.run);
+    const urlPattern = /^(https?:\/\/)?([\w\-]+\.)+[\w\-]+(\/[\w\-._~:\/?#[\]@!$&'()*+,;=]*)?$/i;
+
+    window.onload = function() {
+      updatePreviewBanner();
+      updateStatusLabel();
+      segarkanDataTabel();
+    };
+
+    function updatePreviewBanner() {
+      const banner = document.getElementById("offlineBanner");
+      if (!banner) return;
+      if (isOfflinePreview) banner.classList.remove("hidden");
+      else banner.classList.add("hidden");
+    }
+
+    function updateStatusLabel() {
+      const label = document.getElementById("statusLabel");
+      if (!label) return;
+      if (isOfflinePreview) {
+        label.textContent = "Preview offline aktif: menampilkan data lokal browser";
+        label.className = "text-xs font-semibold text-amber-700 bg-amber-100 px-3 py-1 rounded-full";
+      } else {
+        label.textContent = "Terhubung ke Google Sheets";
+        label.className = "text-xs font-semibold text-slate-600 bg-slate-100 px-3 py-1 rounded-full";
+      }
+    }
+
+    function showToast(message, type = "info") {
+      const container = document.getElementById("toastContainer");
+      if (!container) return;
+      const colors = {
+        info: "bg-slate-900 text-white",
+        success: "bg-emerald-600 text-white",
+        warning: "bg-amber-500 text-slate-900",
+        error: "bg-red-600 text-white"
+      };
+      const toast = document.createElement("div");
+      toast.className = `max-w-sm px-4 py-3 rounded-2xl shadow-xl ${colors[type] || colors.info}`;
+      toast.textContent = message;
+      container.appendChild(toast);
+      setTimeout(() => {
+        toast.classList.add("opacity-0");
+        setTimeout(() => toast.remove(), 300);
+      }, 3200);
+    }
+
+    function validateUrl(value) {
+      return !value || urlPattern.test(value.trim());
+    }
+
+    function validateFormInputs(payload) {
+      const urlFields = [
+        { label: "Instagram", value: payload.instagram },
+        { label: "Facebook", value: payload.facebook },
+        { label: "X", value: payload.x },
+        { label: "Tiktok", value: payload.tiktok },
+        { label: "Youtube Shorts", value: payload.yt_shorts },
+        { label: "Youtube", value: payload.youtube },
+        { label: "Laman Instansi", value: payload.instansi },
+        { label: "Pemberitaan Media", value: payload.media }
+      ];
+      for (const field of urlFields) {
+        if (field.value && !validateUrl(field.value)) {
+          showToast(`Periksa URL ${field.label}. Gunakan format http:// atau https://`, "error");
+          return false;
+        }
+      }
+      return true;
+    }
+
+    function setButtonLoading(button, text, loading) {
+      if (!button) return;
+      button.disabled = loading;
+      button.innerHTML = loading ? text : `Simpan Data Kegiatan`;
+      button.classList.toggle("opacity-60", loading);
+    }
+
+    function toggleAIButtons(disabled) {
+      document.querySelectorAll(".aiButton").forEach(btn => {
+        btn.disabled = disabled;
+        btn.classList.toggle("opacity-60", disabled);
+      });
+    }
+
+    function getOfflineStorageKey() {
+      return "atensiMedsosLocalData";
+    }
+
+    function readOfflineData() {
+      const raw = localStorage.getItem(getOfflineStorageKey());
+      if (!raw) return [];
+      try {
+        return JSON.parse(raw) || [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function writeOfflineData(data) {
+      localStorage.setItem(getOfflineStorageKey(), JSON.stringify(data));
+    }
+
+    function generateId() {
+      return `local-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
+    }
+
+    function segarkanDataTabel() {
+      const tbody = document.getElementById("tabelBody");
+      if (tbody) {
+        tbody.innerHTML = `<tr><td colspan="3" class="py-4 text-center text-slate-400 text-xs">${isOfflinePreview ? "Menampilkan data lokal..." : "Menghubungkan ke Google Sheets..."}</td></tr>`;
+      }
+      if (isOfflinePreview) {
+        renderDataTabel(aggregateOfflineData());
+      } else {
+        google.script.run.withSuccessHandler(renderDataTabel).ambilRiwayatKategori();
+      }
+    }
+
+    function aggregateOfflineData() {
+      const rows = readOfflineData();
+      if (!rows.length) return [];
+      const groups = {};
+      rows.forEach(row => {
+        const tanggal = row.tanggal || "Tidak ada tanggal";
+        if (!groups[tanggal]) {
+          groups[tanggal] = { TANGGAL_RILIS: tanggal, DAFTAR_KEGIATAN: [] };
+        }
+        groups[tanggal].DAFTAR_KEGIATAN.push({ id: row.id, nama: row.nama });
+      });
+      return Object.values(groups).sort((a, b) => new Date(b.TANGGAL_RILIS) - new Date(a.TANGGAL_RILIS));
+    }
+
+    function renderDataTabel(data) {
+      const tbody = document.getElementById("tabelBody");
+      if (!data || data.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="3" class="py-4 text-center text-slate-400 text-xs">Belum ada riwayat kegiatan publikasi.</td></tr>`;
+        return;
+      }
+      let html = "";
+      data.forEach(row => {
+        let listKegiatanHtml = row.DAFTAR_KEGIATAN.map((keg, idx) => {
+          return `
+            <div class="flex items-center justify-between text-xs text-slate-700 py-1 border-b border-slate-100 last:border-none">
+              <div><span class="font-bold text-slate-400">${idx + 1}.</span> ${keg.nama}</div>
+              <button onclick="eksekusiHapusKegiatan('${keg.id}', '${keg.nama}')" class="text-red-500 hover:text-red-700 p-1 transition-colors cursor-pointer">
+                <i class="fa-solid fa-trash-can text-[11px]"></i>
+              </button>
+            </div>`;
+        }).join("");
+
+        html += `
+          <tr class="hover:bg-slate-50/70 transition-colors">
+            <td class="py-4 px-4 font-mono font-bold text-slate-900 align-top whitespace-nowrap"><i class="fa-solid fa-calendar-day text-slate-400 mr-1.5"></i>${row.TANGGAL_RILIS}</td>
+            <td class="py-4 px-4 align-top"><div class="bg-slate-50 border border-slate-150 p-2.5 rounded-lg space-y-0.5 shadow-2xs">${listKegiatanHtml}</div></td>
+            <td class="py-4 px-4 text-center align-top">
+              <button onclick="panggilGeminiAI('${row.TANGGAL_RILIS}')" class="aiButton bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold py-1.5 px-3 rounded-lg text-xs inline-flex items-center gap-1.5 cursor-pointer">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Kompilasi Hari Ini
+              </button>
+            </td>
+          </tr>`;
+      });
+      tbody.innerHTML = html;
+    }
+
+    function eksekusiHapusKegiatan(id, nama) {
+      if (!confirm(`Hapus kegiatan:\n"${nama}"?`)) return;
+      if (isOfflinePreview) {
+        const data = readOfflineData().filter(row => row.id !== id);
+        writeOfflineData(data);
+        showToast("Kegiatan berhasil dihapus secara lokal.", "success");
+        segarkanDataTabel();
+        return;
+      }
+      google.script.run.withSuccessHandler(function(res) { showToast(res.message, res.success ? "success" : "error"); segarkanDataTabel(); }).hapusKontenSpesifik(id);
+    }
+
+    function eksekusiSimpanForm(e) {
+      e.preventDefault();
+      const btn = document.getElementById("btnSimpan");
+      setButtonLoading(btn, `Menyimpan...`, true);
+
+      const payload = {
+        id: generateId(),
+        tanggal: document.getElementById("tanggal").value,
+        nama: document.getElementById("kegiatan").value,
+        instagram: document.getElementById("instagram").value,
+        facebook: document.getElementById("facebook").value,
+        x: document.getElementById("x").value,
+        tiktok: document.getElementById("tiktok").value,
+        yt_shorts: document.getElementById("yt_shorts").value,
+        youtube: document.getElementById("youtube").value,
+        instansi: document.getElementById("instansi").value,
+        media: document.getElementById("media").value,
+        waktuInput: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
+      };
+
+      if (!validateFormInputs(payload)) {
+        setButtonLoading(btn, `Simpan Data Kegiatan`, false);
+        return;
+      }
+
+      if (isOfflinePreview) {
+        const data = readOfflineData();
+        data.push(payload);
+        writeOfflineData(data);
+        setButtonLoading(btn, `Simpan Data Kegiatan`, false);
+        showToast("Data publikasi berhasil disimpan secara lokal.", "success");
+        document.getElementById("formKonten").reset();
+        segarkanDataTabel();
+        return;
+      }
+
+      google.script.run.withSuccessHandler(function(res) {
+        setButtonLoading(btn, `Simpan Data Kegiatan`, false);
+        if (res.success) {
+          showToast(res.message, "success");
+          document.getElementById("formKonten").reset();
+          segarkanDataTabel();
+        } else {
+          showToast(res.message, "error");
+        }
+      }).withFailureHandler(function(err) {
+        setButtonLoading(btn, `Simpan Data Kegiatan`, false);
+        showToast("Terjadi kesalahan saat menyimpan data.", "error");
+      }).simpanKonten(payload);
+    }
+
+    function panggilGeminiAI(tanggal) {
+      const areaTeks = document.getElementById("txtHasilLaporan");
+      areaTeks.value = "Sedang mengompilasi seluruh data kegiatan publikasi harian Anda...";
+      document.getElementById("modalAI").classList.remove("hidden");
+      toggleAIButtons(true);
+
+      if (isOfflinePreview) {
+        areaTeks.value = generateOfflineReport(tanggal);
+        toggleAIButtons(false);
+        return;
+      }
+
+      google.script.run
+        .withSuccessHandler(function(hasilTeksAI) { areaTeks.value = hasilTeksAI; toggleAIButtons(false); })
+        .withFailureHandler(function(err) { areaTeks.value = "Gagal memproses. Terjadi ketidakcocokan tipe data tanggal atau Google Sheets sedang sibuk. Silakan bersihkan baris data kosong di Sheets Anda."; toggleAIButtons(false); })
+        .generateLaporanGemini(tanggal);
+    }
+
+    function generateOfflineReport(tanggalTerpilih) {
+      const rows = readOfflineData().filter(row => row.tanggal === tanggalTerpilih);
+      if (!rows.length) {
+        return `Tidak ditemukan data publikasi pada tanggal: ${tanggalTerpilih}`;
+      }
+      let tanggalFormal = tanggalTerpilih;
+      try {
+        tanggalFormal = new Date(tanggalTerpilih).toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+      } catch (e) {}
+
+      let teks = "Assalamu’alaikum Wr. Wb.\n\nYth.\n1. Direktur Jenderal Imigrasi;\n2. Sekretaris Direktorat Jenderal Imigrasi;\n3. Para Direktur di lingkungan Direktorat Jenderal Imigrasi;\n4. Kepala Kantor Wilayah Direktorat Jenderal Imigrasi Kepulauan Riau;\n\nDari: Kepala Kantor Imigrasi Kelas II TPI Tanjung Uban\n\nBersama ini dengan hormat melaporkan terkait Publikasi Kantor Imigrasi Kelas II TPI Tanjung Uban, Kanwil Direktorat Jenderal Imigrasi Kepulauan Riau, ${tanggalFormal} :\n\n";
+
+      rows.forEach((row, index) => {
+        teks += `*${index + 1}. ${row.nama}*\n`;
+        const platforms = [
+          { nama: "Instagram", url: row.instagram },
+          { nama: "Facebook", url: row.facebook },
+          { nama: "X (Twitter)", url: row.x },
+          { nama: "Tiktok", url: row.tiktok },
+          { nama: "Youtube Shorts", url: row.yt_shorts },
+          { nama: "Youtube", url: row.youtube },
+          { nama: "Laman Instansi", url: row.instansi },
+          { nama: "Pemberitaan Media", url: row.media }
+        ];
+        platforms.forEach(p => {
+          if (p.url && p.url.trim()) {
+            teks += `${p.nama}:\n${p.url}\n`;
+          }
+        });
+        teks += "\n";
+      });
+
+      teks += `Demikian laporan ini disampaikan, selanjutnya mohon petunjuk dan arahan pimpinan.\n\nTanjung Uban, ${new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' })}\nKepala Kantor\n\nAdi Hari Pianto`;
+      return teks;
+    }
+
+    function bersihkanDataLokal() {
+      if (!confirm('Hapus semua data lokal preview?')) return;
+      localStorage.removeItem(getOfflineStorageKey());
+      showToast('Data lokal berhasil dibersihkan.', 'success');
+      segarkanDataTabel();
+    }
+
+    function tutupModalAI() { document.getElementById("modalAI").classList.add("hidden"); }
+    function eksekusiSalinTeks() {
+      const txtArea = document.getElementById("txtHasilLaporan");
+      txtArea.select(); navigator.clipboard.writeText(txtArea.value);
+      showToast("Draf laporan resmi berhasil disalin ke clipboard!", "success");
+    }
+  </script>
+
+</body>
+</html>
